@@ -171,12 +171,12 @@ export class ResourceCalendarComponent implements OnChanges {
   @Input() events: EventModel[] = [];
 
   /**
-   * How long is one slot duration in minutes
+   * How long is one slot duration in minutes.
    */
   @Input() slotDurationInMinutes = 15;
 
   /**
-   * Height of one slot
+   * Height of one slot in pixels.
    */
   @Input() height = 60;
 
@@ -186,37 +186,37 @@ export class ResourceCalendarComponent implements OnChanges {
   @Input() hourBorderHeight = 1;
 
   /**
-   * A custom template to use for the header empty space top of hours
+   * A custom template to use for the header empty space top of hours.
    */
   @Input() infoTemplate: TemplateRef<any>;
 
   /**
-   * A custom template to use for day view in header
+   * A custom template to use for day view in header.
    */
   @Input() dayTemplate: TemplateRef<any>;
 
   /**
-   * A custom template to use for day view resource in header (below day template)
+   * A custom template to use for day view resource in header (below day template).
    */
   @Input() resourceTemplate: TemplateRef<any>;
 
   /**
-   * A custom template to use for hour view (left to calendar)
+   * A custom template to use for hour view (left to calendar).
    */
   @Input() hourTemplate: TemplateRef<any>;
 
   /**
-   * A custom template to use for events
+   * A custom template to use for events.
    */
   @Input() eventTemplate: TemplateRef<any>;
 
   /**
-   * A custom template to use for slots
+   * A custom template to use for slots.
    */
   @Input() slotTemplate: TemplateRef<any>;
 
   /**
-   * A custom template to use for slots
+   * A custom template to show current time etc. custom overlay.
    */
   @Input() currentTimeTemplate: TemplateRef<any>;
 
