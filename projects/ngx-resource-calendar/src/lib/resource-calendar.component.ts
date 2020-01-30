@@ -22,7 +22,6 @@ import { HourModel } from './models/hour.model';
         class="resource"
         [style.max-width.%]="100 / date.resources.length"
         *ngFor="let resource of date.resources"
-        placement="top"
       >
         <ng-template
           [ngTemplateOutlet]="resourceTemplate || defaultResourceTemplate"
@@ -92,16 +91,16 @@ import { HourModel } from './models/hour.model';
 </div>
 
 <ng-template #defaultInfoTemplate></ng-template>
-<ng-template #defaultDayTemplate let-day="day">{{ day.day }}</ng-template>
+<ng-template #defaultDayTemplate let-day="day">{{ day.day | date: 'shortDate' }}</ng-template>
 <ng-template #defaultResourceTemplate let-resource="resource">{{
   resource.resourceNumber
 }}</ng-template>
-<ng-template #defaultHourTemplate let-slot="slot">{{ slot.time }}</ng-template>
+<ng-template #defaultHourTemplate let-slot="slot">{{ slot.time | date: 'shortTime' }}</ng-template>
 <ng-template #defaultCurrentTimeTemplate let-day="day"></ng-template>
 <ng-template #defaultEventTemplate let-event="event">{{
   event.resourceNumber
 }}</ng-template>
-<ng-template #defaultSlotTemplate let-slot="slot">{{ slot.time }}</ng-template>
+<ng-template #defaultSlotTemplate let-slot="slot">{{ slot.time | date: 'shortTime' }}</ng-template>
   `,
   styles: [`
 .header {
@@ -233,7 +232,7 @@ export class ResourceCalendarComponent implements OnChanges {
   public datesWithEvents: any[] = [];
 
   public ngOnChanges(changes: SimpleChanges) {
-    if (changes.dates.currentValue) {
+    if (changes.dates && changes.dates.currentValue) {
       const dates = changes.dates.currentValue;
       if (dates.length === 0) {
         this.hours = [];
@@ -241,13 +240,13 @@ export class ResourceCalendarComponent implements OnChanges {
         this.hours = dates[0].resources[0].hours;
       }
       this.setResourceEvents();
-    } else if (changes.events.currentValue) {
+    } else if (changes.events && changes.events.currentValue) {
       this.setResourceEvents();
     }
   }
 
   private setResourceEvents() {
-    if (this.dates && this.dates.length > 0 && this.events && this.events.length > 0) {
+    if (this.dates && this.dates.length > 0) {
       this.datesWithEvents = [];
       this.dates.forEach(d => {
         const resources = [];
@@ -275,6 +274,10 @@ export class ResourceCalendarComponent implements OnChanges {
     resourceNumber: number | string,
     day: Date
   ): any[] {
+    if (!this.events || this.events.length === 0) {
+      return [];
+    }
+
     const endDate = new Date(day);
     endDate.setDate(endDate.getDate() + 1);
 
@@ -284,7 +287,7 @@ export class ResourceCalendarComponent implements OnChanges {
     const events = this.events.filter(
       m =>
         m.resourceNumber === resourceNumber &&
-        m.startTime.getTime() > dayStart &&
+        m.startTime.getTime() >= dayStart &&
         m.endTime.getTime() < dayEnd
     );
 
