@@ -14,6 +14,7 @@ podTemplate(label: pod.label,
           sh """
             npm ci
             npm run build
+            npm run build:lib
           """
         }
       }
@@ -23,11 +24,16 @@ podTemplate(label: pod.label,
             cd dist/ngx-resource-calendar
             ls -la
         """
-        dir("dist/ngx-resource-calendar") {
+        dir("dist") {
             sh """
                 ls
             """
-            publishTagToNpm()
+            dir("ngx-resource-calendar") {
+                sh """
+                    ls
+                """
+                publishTagToNpm()
+            }
         }
       }
     }
