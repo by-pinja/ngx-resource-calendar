@@ -1,6 +1,7 @@
 {
   "name": "@protacon/ngx-resource-calendar",
-  "version": "0.0.0",
+  "version": "0.0.1",
+  "description": "Resource calendar for Angular",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -9,7 +10,11 @@
     "lint": "ng lint",
     "e2e": "ng e2e"
   },
-  "private": true,
+  "author": "Protacon",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/protacon/ngx-resource-calendar/issues"
+  },
   "dependencies": {
     "@angular/animations": "~8.2.14",
     "@angular/cdk": "~8.2.3",

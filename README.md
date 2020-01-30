@@ -1,27 +1,44 @@
 # NgxResourceCalendar
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 8.3.23.
+## What is this?
 
-## Development server
+Resource calendar for Angular 8+
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+## Install
+### Step 1: Install @protacon/ngx-resource-calendar
+```bash
+$ npm install --save @protacon/ngx-resource-calendar
+```
 
-## Code scaffolding
+### Step 2: Import the module
+Add `NgxResourceCalendarModule` as an import in your app's root NgModule.
+```typescript
+import { NgxResourceCalendarModule }  from '@protacon/ngx-resource-calendar';
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+@NgModule({
+  ...
+  imports: [
+    ...
+    NgxResourceCalendarModule,
+  ],
+  ...
+})
+export class AppModule { }
+```
 
-## Build
+## Usage
+Simple usage example
+```html
+<pro-resource-calendar [dates]="dates" [events]="events">
+</pro-resource-calendar>
+```
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+| Attribute | Description |
+| --- | --- |
+| `dates` | Specifies the dates and resources which calendar shows |
+| `events` | Events to show in calendar |
 
-## Running unit tests
+## License
+[The MIT License (MIT)](LICENSE)
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+Copyright (c) 2020 Protacon
