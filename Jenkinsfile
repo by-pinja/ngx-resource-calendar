@@ -23,7 +23,7 @@ podTemplate(label: pod.label,
             cd dist/ngx-resource-calendar
             ls -la
         """
-        dir("dist") {
+        dir("dist/ngx-resource-calendar") {
             sh """
                 ls
             """
