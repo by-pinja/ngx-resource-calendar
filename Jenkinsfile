@@ -18,10 +18,10 @@ podTemplate(label: pod.label,
         }
       }
       stage('Publish tag') {
+        sh """
+            ls
+        """
         dir("dist/ngx-resource-calendar") {
-            sh """
-                ls
-            """
             publishTagToNpm()
         }
       }
