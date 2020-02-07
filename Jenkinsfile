@@ -19,9 +19,7 @@ podTemplate(label: pod.label,
         }
       }
       stage('Publish tag') {
-        dir("lib") {
-            publishTagToNpm()
-        }
+        publishTagToNpm()
       }
     }
   }
