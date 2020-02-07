@@ -1,4 +1,4 @@
-library 'jenkins-ptcs-library@latest-feature-publishTagToNpm-custom-folder'
+library 'jenkins-ptcs-library@feature/publishTagToNpm-custom-folder'
 
 podTemplate(label: pod.label,
   containers: pod.templates + [
