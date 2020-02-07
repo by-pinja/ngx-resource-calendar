@@ -1,4 +1,4 @@
-library 'jenkins-ptcs-library@2.3.0'
+library 'jenkins-ptcs-library@latest-feature-publishTagToNpm-custom-folder'
 
 podTemplate(label: pod.label,
   containers: pod.templates + [
@@ -19,7 +19,7 @@ podTemplate(label: pod.label,
         }
       }
       stage('Publish tag') {
-        publishTagToNpm()
+        publishTagToNpm("dist/ngx-resource-calendar")
       }
     }
   }
