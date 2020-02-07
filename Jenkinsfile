@@ -13,14 +13,13 @@ podTemplate(label: pod.label,
         container('node') {
           sh """
             npm ci
-            npm run build
+            npm run build:lib
+            npm run build:copyfiles
           """
         }
       }
       stage('Publish tag') {
-        dir("dist/ngx-resource-calendar") {
-            publishTagToNpm()
-        }
+        publishTagToNpm()
       }
     }
   }
