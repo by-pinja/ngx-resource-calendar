@@ -1,62 +1,60 @@
-  
 button.info-btn {
-    color: #fff !important;
+  color: #fff !important;
 }
-  
+
 :host ::ng-deep pro-resource-calendar .header {
-    border-bottom: 1px solid gray;
-    background: #fff;
-    text-align: center;
+  border-bottom: 1px solid gray;
+  background: #fff;
+  text-align: center;
 }
-  
+
 :host ::ng-deep pro-resource-calendar .header .day-row {
-    font-size: normal;
-    font-weight: 600;
-    color: #0158AF;
-    text-transform: capitalize;
-    padding-top: 10px;
+  font-size: normal;
+  font-weight: 600;
+  color: #0158af;
+  text-transform: capitalize;
+  padding-top: 10px;
 }
-    
+
 :host ::ng-deep pro-resource-calendar .header .resource {
-    font-size: small;
-    text-transform: uppercase;
-    padding: 10px;
+  font-size: small;
+  text-transform: uppercase;
+  padding: 10px;
 }
-  
+
 :host ::ng-deep pro-resource-calendar .hour-row {
-    text-align: right;
-    background: #fff;
+  text-align: right;
+  background: #fff;
 }
 
 :host ::ng-deep pro-resource-calendar .hour-sub-slot {
-    padding: 0 10px;
-    font-size: small;
-    text-transform: uppercase;
-    color: grey;
+  padding: 0 10px;
+  font-size: small;
+  text-transform: uppercase;
+  color: grey;
 }
-    
+
 :host ::ng-deep pro-resource-calendar .hour-sub-slot:first-child {
-    font-weight: 800;
-    font-size: normal;
+  font-weight: 800;
+  font-size: normal;
 }
-  
+
 :host ::ng-deep pro-resource-calendar .day-row {
-    position: relative;
-    width: 90%;
-    border-left: 1px solid gray;
+  position: relative;
+  width: 90%;
+  border-left: 1px solid gray;
 }
-    
+
 :host ::ng-deep pro-resource-calendar .hour-slot {
-    background: #fff;
-    border-bottom: 1px solid gray;    
+  background: #fff;
+  border-bottom: 1px solid gray;
 }
-    
+
 :host ::ng-deep pro-resource-calendar .hour-sub-slot:not(:last-child) {
-    border-bottom: 1px dashed gray;
+  border-bottom: 1px dashed gray;
 }
 
 .calendar-event {
-    padding: 5px;
-    height: 100%;
+  padding: 5px;
+  height: 100%;
 }
-  
