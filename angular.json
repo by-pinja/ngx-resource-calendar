@@ -7,7 +7,7 @@
       "projectType": "library",
       "root": "projects/ngx-resource-calendar",
       "sourceRoot": "projects/ngx-resource-calendar/src",
-      "prefix": "pro",
+      "prefix": "ptc",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-ng-packagr:build",
@@ -31,9 +31,7 @@
               "projects/ngx-resource-calendar/tsconfig.lib.json",
               "projects/ngx-resource-calendar/tsconfig.spec.json"
             ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
+            "exclude": ["**/node_modules/**"]
           }
         }
       }
@@ -58,9 +56,7 @@
               "projects/demo/src/favicon.ico",
               "projects/demo/src/assets"
             ],
-            "styles": [
-              "projects/demo/src/styles.css"
-            ],
+            "styles": ["projects/demo/src/styles.css"],
             "scripts": []
           },
           "configurations": {
@@ -123,9 +119,7 @@
               "projects/demo/src/favicon.ico",
               "projects/demo/src/assets"
             ],
-            "styles": [
-              "projects/demo/src/styles.css"
-            ],
+            "styles": ["projects/demo/src/styles.css"],
             "scripts": []
           }
         },
@@ -137,9 +131,7 @@
               "projects/demo/tsconfig.spec.json",
               "projects/demo/e2e/tsconfig.json"
             ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
+            "exclude": ["**/node_modules/**"]
           }
         },
         "e2e": {
@@ -155,6 +147,7 @@
           }
         }
       }
-    }},
+    }
+  },
   "defaultProject": "ngx-resource-calendar"
 }

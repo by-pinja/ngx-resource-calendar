@@ -11,7 +11,7 @@ import { DayModel } from './models/day.model';
 import { HourModel } from './models/hour.model';
 
 @Component({
-  selector: 'pro-resource-calendar',
+  selector: 'ptc-resource-calendar',
   template: `
     <div class="header">
       <div class="hour-row info-block">
