@@ -313,8 +313,8 @@ export class ResourceCalendarComponent implements OnChanges {
         data: event,
         position: this.calculatePosition(event, day),
         height: this.calculateHeight(event),
-        left: event.left || 0,
-        width: event.width || 100
+        left: event.left || '0',
+        width: event.width || '100%'
       };
     });
   }
