@@ -69,8 +69,8 @@ import { HourModel } from './models/hour.model';
             *ngFor="let event of resource.events"
             [style.top.px]="event.position"
             [style.height.px]="event.height"
-            [style.left.%]="event.left"
-            [style.width.%]="event.width"
+            [style.left]="event.left"
+            [style.width]="event.width"
             class="event"
           >
             <ng-template

@@ -156,18 +156,25 @@ export class AppComponent implements OnInit {
         resourceNumber: 1
       },
       {
-        startTime: new Date('2020-01-30 12:30:00'),
-        endTime: new Date('2020-01-30 13:15:00'),
-        resourceNumber: 1,
-        left: 0,
-        width: 50
+        startTime: new Date('2020-01-30 12:15:00'),
+        endTime: new Date('2020-01-30 12:30:00'),
+        resourceNumber: 2,
+        left: '10px',
+        width: '100px'
       },
       {
         startTime: new Date('2020-01-30 12:30:00'),
         endTime: new Date('2020-01-30 13:15:00'),
         resourceNumber: 1,
-        left: 50,
-        width: 50
+        left: '0',
+        width: '50%'
+      },
+      {
+        startTime: new Date('2020-01-30 12:30:00'),
+        endTime: new Date('2020-01-30 13:15:00'),
+        resourceNumber: 1,
+        left: '50%',
+        width: '50%'
       }
     ];
   }
