@@ -12,10 +12,10 @@
     "lint": "ng lint",
     "e2e": "ng e2e"
   },
-  "author": "Protacon",
+  "author": "Pinja",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/protacon/ngx-resource-calendar/issues"
+    "url": "https://github.com/by-pinja/ngx-resource-calendar/issues"
   },
   "dependencies": {
     "@angular/animations": "~8.2.14",

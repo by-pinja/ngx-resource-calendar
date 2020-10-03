@@ -69,4 +69,4 @@ Simple usage example
 
 [The MIT License (MIT)](LICENSE)
 
-Copyright (c) 2020 Protacon
+Copyright (c) 2020 [Pinja](https://www.pinja.com)
