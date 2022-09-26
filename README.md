@@ -2,7 +2,7 @@
 
 ## What is this?
 
-Resource calendar for Angular 8+
+Resource calendar for Angular 14+
 
 ## Install
 
@@ -42,9 +42,7 @@ Simple usage example
   [hourTemplate]="hourTemplate"
 >
 </ptc-resource-calendar>
-<ng-template #infoTemplate>
-  Info view
-</ng-template>
+<ng-template #infoTemplate> Info view </ng-template>
 <ng-template #hourTemplate let-slot="slot">
   <div>{{ slot.time | data: 'shortTime' }}</div>
 </ng-template>
