@@ -35,13 +35,13 @@ export class AppModule { }
 Simple usage example
 
 ```html
-<ptc-resource-calendar
+<pinja-resource-calendar
   [dates]="dates"
   [events]="events"
   [infoTemplate]="infoTemplate"
   [hourTemplate]="hourTemplate"
 >
-</ptc-resource-calendar>
+</pinja-resource-calendar>
 <ng-template #infoTemplate> Info view </ng-template>
 <ng-template #hourTemplate let-slot="slot">
   <div>{{ slot.time | data: 'shortTime' }}</div>

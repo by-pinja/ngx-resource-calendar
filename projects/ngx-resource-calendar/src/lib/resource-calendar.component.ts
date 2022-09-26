@@ -4,14 +4,14 @@ import {
   Input,
   ChangeDetectionStrategy,
   OnChanges,
-  SimpleChanges
+  SimpleChanges,
 } from '@angular/core';
 import { EventModel } from './models/event.model';
 import { DayModel } from './models/day.model';
 import { HourModel } from './models/hour.model';
 
 @Component({
-  selector: 'ptc-resource-calendar',
+  selector: 'pinja-resource-calendar',
   template: `
     <div class="header">
       <div class="hour-row info-block">
@@ -174,9 +174,9 @@ import { HourModel } from './models/hour.model';
         z-index: 1;
         overflow: hidden;
       }
-    `
+    `,
   ],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ResourceCalendarComponent implements OnChanges {
   /**
@@ -267,20 +267,20 @@ export class ResourceCalendarComponent implements OnChanges {
   private setResourceEvents() {
     if (this.dates && this.dates.length > 0) {
       this.datesWithEvents = [];
-      this.dates.forEach(d => {
+      this.dates.forEach((d) => {
         const resources = [];
 
-        d.resources.forEach(r => {
+        d.resources.forEach((r) => {
           resources.push({
             data: r,
             hours: r.hours,
-            events: this.getEvents(r.resourceNumber, r.hours[0].slots[0].time)
+            events: this.getEvents(r.resourceNumber, r.hours[0].slots[0].time),
           });
         });
 
         this.datesWithEvents.push({
           data: d,
-          resources
+          resources,
         });
       });
     }
@@ -301,20 +301,20 @@ export class ResourceCalendarComponent implements OnChanges {
     const dayEnd = endDate.getTime();
 
     const events = this.events.filter(
-      m =>
+      (m) =>
         m.resourceNumber === resourceNumber &&
         m.startTime.getTime() >= dayStart &&
         m.endTime.getTime() < dayEnd
     );
 
     // Calculate postion and height for events
-    return events.map(event => {
+    return events.map((event) => {
       return {
         data: event,
         position: this.calculatePosition(event, day),
         height: this.calculateHeight(event),
         left: event.left || '0',
-        width: event.width || '100%'
+        width: event.width || '100%',
       };
     });
   }
