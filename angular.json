@@ -7,7 +7,7 @@
       "projectType": "library",
       "root": "projects/ngx-resource-calendar",
       "sourceRoot": "projects/ngx-resource-calendar/src",
-      "prefix": "ptc",
+      "prefix": "pinja",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:ng-packagr",
