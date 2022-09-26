@@ -28,16 +28,6 @@
             "tsConfig": "projects/ngx-resource-calendar/tsconfig.spec.json",
             "karmaConfig": "projects/ngx-resource-calendar/karma.conf.js"
           }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": [
-              "projects/ngx-resource-calendar/tsconfig.lib.json",
-              "projects/ngx-resource-calendar/tsconfig.spec.json"
-            ],
-            "exclude": ["**/node_modules/**"]
-          }
         }
       }
     },
@@ -130,17 +120,6 @@
             ],
             "styles": ["projects/demo/src/styles.css"],
             "scripts": []
-          }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": [
-              "projects/demo/tsconfig.app.json",
-              "projects/demo/tsconfig.spec.json",
-              "projects/demo/e2e/tsconfig.json"
-            ],
-            "exclude": ["**/node_modules/**"]
           }
         },
         "e2e": {
