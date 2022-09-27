@@ -106,7 +106,7 @@ import { CalendarEventModel } from './models/calendar-event.model';
             <ng-template
               [ngTemplateOutlet]="slotTemplate || defaultSlotTemplate"
               [ngTemplateOutletContext]="{
-                slot: slot,
+                slot: slot.data,
                 resource: resource.data,
                 day: date.data
               }"
@@ -131,7 +131,7 @@ import { CalendarEventModel } from './models/calendar-event.model';
       event.resourceNumber
     }}</ng-template>
     <ng-template #defaultSlotTemplate let-slot="slot">{{
-      slot.time | date: 'shortTime'
+      slot.startTime | date: 'shortTime'
     }}</ng-template>
   `,
   styles: [
