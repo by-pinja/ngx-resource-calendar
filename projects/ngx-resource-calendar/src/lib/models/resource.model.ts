@@ -1,6 +1,6 @@
-import { HourModel } from './hour.model';
+import { SlotModel } from './slot.model';
 
 export class ResourceModel {
   resourceNumber: number | string;
-  hours: HourModel[];
+  slots: SlotModel[];
 }

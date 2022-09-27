@@ -38,6 +38,8 @@ Simple usage example
 <pinja-resource-calendar
   [dates]="dates"
   [events]="events"
+  [startHour]="8"
+  [endHour]="17"
   [infoTemplate]="infoTemplate"
   [hourTemplate]="hourTemplate"
 >
@@ -48,20 +50,21 @@ Simple usage example
 </ng-template>
 ```
 
-| Attribute               | Description                                                                    | Template output                                              |
-| ----------------------- | ------------------------------------------------------------------------------ | ------------------------------------------------------------ |
-| `dates`                 | Specifies the dates and resources which calendar shows                         |                                                              |
-| `events`                | Events to show in calendar                                                     |                                                              |
-| `slotDurationInMinutes` | How many minutes one slot is. Default 15 minutes.                              |                                                              |
-| `height`                | Heigh of one slot in pixels. Default 60px.                                     |                                                              |
-| `hourBorderHeight`      | Height between slots when hour changes like border or margin etc. Default 1px. |                                                              |
-| `infoTemplate`          | A custom template to use for the header empty space top of hours.              | -                                                            |
-| `dayTemplate`           | A custom template to use for day view in header                                | day = DateModel                                              |
-| `resourceTemplate`      | A custom template to use for day view resource in header (below day template)  | resource = ResourceModel                                     |
-| `hourTemplate`          | A custom template to use for hour view (left to calendar)                      | slot = SlotModel                                             |
-| `eventTemplate`         | A custom template to use for events                                            | event = EventModel, resource = ResourceModel, day = DayModel |
-| `slotTemplate`          | A custom template to use for slots                                             | slot = SlotModel, resource = ResourceModel, day = DayModel   |
-| `currentTimeTemplate`   | A custom template to show current time etc. custom overlay                     | day = DateModel                                              |
+| Attribute               | Description                                                                   | Template output                                              |
+| ----------------------- | ----------------------------------------------------------------------------- | ------------------------------------------------------------ |
+| `dates`                 | Specifies the dates and resources which calendar shows                        |                                                              |
+| `events`                | Events to show in calendar                                                    |                                                              |
+| `slotDurationInMinutes` | How many minutes one slot is in the hour row. Default 15 minutes.             |                                                              |
+| `height`                | Heigh of one slot in pixels. Default 60px.                                    |                                                              |
+| `startHour`             | First hour in the calendar.                                                   |                                                              |
+| `endHour`               | Last hour in the calendar.                                                    |                                                              |
+| `infoTemplate`          | A custom template to use for the header empty space top of hours.             | -                                                            |
+| `dayTemplate`           | A custom template to use for day view in header                               | day = DateModel                                              |
+| `resourceTemplate`      | A custom template to use for day view resource in header (below day template) | resource = ResourceModel                                     |
+| `hourTemplate`          | A custom template to use for hour view (left to calendar)                     | time = Date                                                  |
+| `eventTemplate`         | A custom template to use for events                                           | event = EventModel, resource = ResourceModel, day = DayModel |
+| `slotTemplate`          | A custom template to use for slots                                            | slot = SlotModel, resource = ResourceModel, day = DayModel   |
+| `currentTimeTemplate`   | A custom template to show current time etc. custom overlay                    | day = DateModel                                              |
 
 ## License
 

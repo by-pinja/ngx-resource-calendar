@@ -2,9 +2,32 @@
 <button (click)="setDay()">1 day</button>
 <button (click)="setDays()">2 days</button>
 <button (click)="addEvents()">Add events</button>
-<pinja-resource-calendar
-  [dates]="dates"
-  [events]="events"
-  [slotDurationInMinutes]="15"
->
-</pinja-resource-calendar>
+<div>
+  <pinja-resource-calendar
+    [dates]="dates"
+    [events]="events"
+    [startHour]="12"
+    [endHour]="15"
+    [slotDurationInMinutes]="15"
+    [slotTemplate]="slotTemplate"
+    [eventTemplate]="eventTemplate"
+  >
+  </pinja-resource-calendar>
+</div>
+
+<ng-template #slotTemplate let-slot="slot">
+  <div class="slot">
+    <a href="/"
+      >{{ slot.data.startTime | date: 'shortTime' }} -
+      {{ slot.data.endTime | date: 'shortTime' }}</a
+    >
+  </div>
+</ng-template>
+
+<ng-template #eventTemplate let-event="event">
+  <div class="event">
+    <a href="#" class="event-information">
+      {{ event.startTime | date: 'shortTime' }}
+    </a>
+  </div>
+</ng-template>
