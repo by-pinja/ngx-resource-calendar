@@ -1,4 +1,4 @@
-library 'jenkins-ptcs-library@master'
+library 'jenkins-ptcs-library@5.0'
 
 podTemplate(label: pod.label,
   containers: pod.templates + [
