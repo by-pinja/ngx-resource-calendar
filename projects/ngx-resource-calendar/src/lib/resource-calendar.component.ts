@@ -9,6 +9,8 @@ import {
 import { EventModel } from './models/event.model';
 import { DayModel } from './models/day.model';
 import { HourModel } from './models/hour.model';
+import { SlotModel } from './models/slot.model';
+import { CalendarEventModel } from './models/calendar-event.model';
 
 @Component({
   selector: 'pinja-resource-calendar',
@@ -45,11 +47,11 @@ import { HourModel } from './models/hour.model';
             <div
               class="hour-sub-slot"
               [style.height.px]="height"
-              *ngFor="let slot of hour.slots"
+              *ngFor="let time of hour.slots"
             >
               <ng-template
                 [ngTemplateOutlet]="hourTemplate || defaultHourTemplate"
-                [ngTemplateOutletContext]="{ slot: slot }"
+                [ngTemplateOutletContext]="{ time }"
               ></ng-template>
             </div>
           </div>
@@ -65,6 +67,16 @@ import { HourModel } from './models/hour.model';
           [style.max-width.%]="100 / date.resources.length"
           *ngFor="let resource of date.resources"
         >
+          <div *ngFor="let hour of hours">
+            <div class="hour-slot">
+              <div
+                class="hour-sub-slot"
+                [style.height.px]="height"
+                *ngFor="let time of hour.slots"
+              ></div>
+            </div>
+          </div>
+
           <div
             *ngFor="let event of resource.events"
             [style.top.px]="event.position"
@@ -83,21 +95,22 @@ import { HourModel } from './models/hour.model';
             ></ng-template>
           </div>
 
-          <div class="hour-slot" *ngFor="let hour of resource.hours">
-            <div
-              class="hour-sub-slot"
-              [style.height.px]="height"
-              *ngFor="let slot of hour.slots"
-            >
-              <ng-template
-                [ngTemplateOutlet]="slotTemplate || defaultSlotTemplate"
-                [ngTemplateOutletContext]="{
-                  slot: slot,
-                  resource: resource.data,
-                  day: date.data
-                }"
-              ></ng-template>
-            </div>
+          <div
+            *ngFor="let slot of resource.slots"
+            class="slot"
+            [style.top.px]="slot.position"
+            [style.height.px]="slot.height"
+            [style.left]="slot.left"
+            [style.width]="slot.width"
+          >
+            <ng-template
+              [ngTemplateOutlet]="slotTemplate || defaultSlotTemplate"
+              [ngTemplateOutletContext]="{
+                slot: slot.data,
+                resource: resource.data,
+                day: date.data
+              }"
+            ></ng-template>
           </div>
         </div>
       </div>
@@ -110,15 +123,15 @@ import { HourModel } from './models/hour.model';
     <ng-template #defaultResourceTemplate let-resource="resource">{{
       resource.resourceNumber
     }}</ng-template>
-    <ng-template #defaultHourTemplate let-slot="slot">{{
-      slot.time | date: 'shortTime'
+    <ng-template #defaultHourTemplate let-time="time">{{
+      time | date: 'shortTime'
     }}</ng-template>
     <ng-template #defaultCurrentTimeTemplate let-day="day"></ng-template>
     <ng-template #defaultEventTemplate let-event="event">{{
       event.resourceNumber
     }}</ng-template>
     <ng-template #defaultSlotTemplate let-slot="slot">{{
-      slot.time | date: 'shortTime'
+      slot.startTime | date: 'shortTime'
     }}</ng-template>
   `,
   styles: [
@@ -169,9 +182,15 @@ import { HourModel } from './models/hour.model';
         width: 90%;
       }
 
+      .slot {
+        position: absolute;
+        overflow: hidden;
+        z-index: 1;
+      }
+
       .event {
         position: absolute;
-        z-index: 1;
+        z-index: 2;
         overflow: hidden;
       }
     `,
@@ -181,9 +200,18 @@ import { HourModel } from './models/hour.model';
 export class ResourceCalendarComponent implements OnChanges {
   /**
    * An array of dates to show on view.
-   * NOTE: Hours are drawn from the arrays first day's first resource.
    */
   @Input() dates: DayModel[] = [];
+
+  /**
+   * First hour to draw in the calendar.
+   */
+  @Input() startHour: number = null;
+
+  /**
+   * Last hour to draw in the calendar.
+   */
+  @Input() endHour: number = null;
 
   /**
    * An array of events to show on view.
@@ -199,11 +227,6 @@ export class ResourceCalendarComponent implements OnChanges {
    * Height of one slot in pixels.
    */
   @Input() height = 60;
-
-  /**
-   * If every hour contains border or margin etc. This value needs to be that height in pixels.
-   */
-  @Input() hourBorderHeight = 1;
 
   /**
    * A custom template to use for the header empty space top of hours.
@@ -252,12 +275,30 @@ export class ResourceCalendarComponent implements OnChanges {
 
   public ngOnChanges(changes: SimpleChanges) {
     if (changes.dates && changes.dates.currentValue) {
-      const dates = changes.dates.currentValue;
-      if (dates.length === 0) {
+      const dates: DayModel[] = changes.dates.currentValue;
+      if (
+        dates.length === 0 ||
+        this.startHour === null ||
+        this.endHour === null
+      ) {
         this.hours = [];
       } else {
-        this.hours = dates[0].resources[0].hours;
+        this.hours = [];
+        for (let hour = this.startHour; hour <= this.endHour; hour++) {
+          const slots: Date[] = [];
+          for (
+            let hourSlot = 0;
+            hourSlot < 60;
+            hourSlot += this.slotDurationInMinutes
+          ) {
+            slots.push(
+              this.addMinutesToDate(dates[0].day, hour * 60 + hourSlot)
+            );
+          }
+          this.hours.push({ slots });
+        }
       }
+
       this.setResourceEvents();
     } else if (changes.events && changes.events.currentValue) {
       this.setResourceEvents();
@@ -269,12 +310,13 @@ export class ResourceCalendarComponent implements OnChanges {
       this.datesWithEvents = [];
       this.dates.forEach((d) => {
         const resources = [];
+        const startTime = this.addMinutesToDate(d.day, 60 * this.startHour);
 
         d.resources.forEach((r) => {
           resources.push({
             data: r,
-            hours: r.hours,
-            events: this.getEvents(r.resourceNumber, r.hours[0].slots[0].time),
+            slots: this.getSlots(r.slots, startTime),
+            events: this.getEvents(r.resourceNumber, startTime),
           });
         });
 
@@ -289,7 +331,10 @@ export class ResourceCalendarComponent implements OnChanges {
   /**
    * Gets events for a day's resource
    */
-  private getEvents(resourceNumber: number | string, day: Date): any[] {
+  private getEvents(
+    resourceNumber: number | string,
+    day: Date
+  ): CalendarEventModel<EventModel>[] {
     if (!this.events || this.events.length === 0) {
       return [];
     }
@@ -307,7 +352,7 @@ export class ResourceCalendarComponent implements OnChanges {
         m.endTime.getTime() < dayEnd
     );
 
-    // Calculate postion and height for events
+    // Calculate position and height for events
     return events.map((event) => {
       return {
         data: event,
@@ -320,17 +365,39 @@ export class ResourceCalendarComponent implements OnChanges {
   }
 
   /**
+   * Gets slots for a day's resource
+   */
+  private getSlots(
+    slots: SlotModel[],
+    day: Date
+  ): CalendarEventModel<SlotModel>[] {
+    if (!slots || slots.length === 0) {
+      return [];
+    }
+
+    // Calculate position and height for slots
+    return slots.map((slot) => {
+      return {
+        data: slot,
+        position: this.calculatePosition(slot, day),
+        height: this.calculateHeight(slot),
+        left: slot.left || '0',
+        width: slot.width || '100%',
+      };
+    });
+  }
+
+  /**
    * Calculates events top position. Floors to closest minute.
    *
    * @param event Event
    */
-  private calculatePosition(event: EventModel, day: Date): number {
+  private calculatePosition(event: EventModel | SlotModel, day: Date): number {
     const diffInMinutes =
       (event.startTime.getTime() - day.getTime()) / 1000 / 60;
 
-    return (
-      Math.floor(diffInMinutes / this.slotDurationInMinutes) * this.height +
-      Math.floor(diffInMinutes / 60) * this.hourBorderHeight
+    return Math.floor(
+      (diffInMinutes / this.slotDurationInMinutes) * this.height
     );
   }
 
@@ -339,7 +406,7 @@ export class ResourceCalendarComponent implements OnChanges {
    *
    * @param event Event
    */
-  private calculateHeight(event: EventModel): number {
+  private calculateHeight(event: EventModel | SlotModel): number {
     const diffInMinutes =
       (event.endTime.getTime() - event.startTime.getTime()) / 1000 / 60;
 
@@ -347,16 +414,17 @@ export class ResourceCalendarComponent implements OnChanges {
       return 1 * this.height;
     }
 
-    let hoursDiff = event.endTime.getHours() - event.startTime.getHours();
+    return (diffInMinutes / this.slotDurationInMinutes) * this.height;
+  }
 
-    // If end time ends with 0 minutes like 16:00, don't add hour diff as it ends in 15:xx - 16:00 slot
-    if (event.endTime.getMinutes() === 0 && hoursDiff > 0) {
-      hoursDiff--;
-    }
-
-    return (
-      (diffInMinutes / this.slotDurationInMinutes) * this.height +
-      hoursDiff * this.hourBorderHeight
-    );
+  /**
+   * Add's minutes to given date time.
+   *
+   * @param date Date time
+   * @param minutes How many minutes are added
+   * @returns Date time with added minutes
+   */
+  private addMinutesToDate(date: Date, minutes: number): Date {
+    return new Date(date.getTime() + minutes * 60000);
   }
 }

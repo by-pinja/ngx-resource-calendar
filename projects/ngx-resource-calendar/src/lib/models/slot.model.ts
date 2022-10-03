@@ -1,3 +1,6 @@
 export class SlotModel {
-  time: Date;
+  startTime: Date;
+  endTime: Date;
+  width?: string;
+  left?: string;
 }

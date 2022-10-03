@@ -11,9 +11,12 @@ button.info-btn {
 :host ::ng-deep pinja-resource-calendar .header .day-row {
   font-size: normal;
   font-weight: 600;
-  color: #0158af;
   text-transform: capitalize;
   padding-top: 10px;
+}
+
+:host ::ng-deep pinja-resource-calendar .day-row {
+  border-left: 1px solid gray;
 }
 
 :host ::ng-deep pinja-resource-calendar .header .resource {
@@ -27,34 +30,55 @@ button.info-btn {
   background: #fff;
 }
 
-:host ::ng-deep pinja-resource-calendar .hour-sub-slot {
+:host ::ng-deep pinja-resource-calendar .hour-row .hour-sub-slot {
   padding: 0 10px;
   font-size: small;
   text-transform: uppercase;
   color: grey;
 }
 
-:host ::ng-deep pinja-resource-calendar .hour-sub-slot:first-child {
-  font-weight: 800;
-  font-size: normal;
-}
-
-:host ::ng-deep pinja-resource-calendar .day-row {
-  position: relative;
-  width: 90%;
-  border-left: 1px solid gray;
-}
-
-:host ::ng-deep pinja-resource-calendar .hour-slot {
-  background: #fff;
-  border-bottom: 1px solid gray;
-}
-
 :host ::ng-deep pinja-resource-calendar .hour-sub-slot:not(:last-child) {
   border-bottom: 1px dashed gray;
 }
 
-.calendar-event {
-  padding: 5px;
+:host ::ng-deep pinja-resource-calendar .hour-sub-slot:last-child {
+  border-bottom: 1px solid gray;
+}
+
+.slot {
   height: 100%;
+  width: 100%;
+  padding: 4px;
+}
+
+.slot a {
+  display: block;
+  padding: 4px;
+  background-color: #fafafa;
+  border-top: 3px solid #aaaaaa;
+  height: 100%;
+  text-decoration: none;
+  box-shadow: 0;
+  overflow: hidden;
+  border: 1px solid #dedede;
+  border-top: 3px solid rgba(0, 128, 0, 0.5);
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.event {
+  padding: 4px;
+  height: 100%;
+}
+
+.event-information {
+  background-color: #fafafa;
+  border: 1px solid gray;
+  cursor: pointer;
+  height: 100%;
+  display: block;
+  padding: 4px;
+  text-decoration: none;
+  overflow: hidden;
 }
