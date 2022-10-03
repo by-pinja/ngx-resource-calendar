@@ -9,7 +9,7 @@ import {
 import { EventModel } from './models/event.model';
 import { DayModel } from './models/day.model';
 import { HourModel } from './models/hour.model';
-import { SlotModel } from '../public-api';
+import { SlotModel } from './models/slot.model';
 import { CalendarEventModel } from './models/calendar-event.model';
 
 @Component({
@@ -72,7 +72,7 @@ import { CalendarEventModel } from './models/calendar-event.model';
               <div
                 class="hour-sub-slot"
                 [style.height.px]="height"
-                *ngFor="let slot of hour.slots"
+                *ngFor="let time of hour.slots"
               ></div>
             </div>
           </div>
@@ -200,10 +200,17 @@ import { CalendarEventModel } from './models/calendar-event.model';
 export class ResourceCalendarComponent implements OnChanges {
   /**
    * An array of dates to show on view.
-   * NOTE: Hours are drawn from the arrays first day's first resource.
    */
   @Input() dates: DayModel[] = [];
+
+  /**
+   * First hour to draw in the calendar.
+   */
   @Input() startHour: number = null;
+
+  /**
+   * Last hour to draw in the calendar.
+   */
   @Input() endHour: number = null;
 
   /**
@@ -277,7 +284,7 @@ export class ResourceCalendarComponent implements OnChanges {
         this.hours = [];
       } else {
         this.hours = [];
-        for (let hour = this.startHour; hour < this.endHour; hour++) {
+        for (let hour = this.startHour; hour <= this.endHour; hour++) {
           const slots: Date[] = [];
           for (
             let hourSlot = 0;
@@ -345,7 +352,7 @@ export class ResourceCalendarComponent implements OnChanges {
         m.endTime.getTime() < dayEnd
     );
 
-    // Calculate postion and height for events
+    // Calculate position and height for events
     return events.map((event) => {
       return {
         data: event,
@@ -368,7 +375,7 @@ export class ResourceCalendarComponent implements OnChanges {
       return [];
     }
 
-    // Calculate postion and height for slots
+    // Calculate position and height for slots
     return slots.map((slot) => {
       return {
         data: slot,
@@ -410,6 +417,13 @@ export class ResourceCalendarComponent implements OnChanges {
     return (diffInMinutes / this.slotDurationInMinutes) * this.height;
   }
 
+  /**
+   * Add's minutes to given date time.
+   *
+   * @param date Date time
+   * @param minutes How many minutes are added
+   * @returns Date time with added minutes
+   */
   private addMinutesToDate(date: Date, minutes: number): Date {
     return new Date(date.getTime() + minutes * 60000);
   }
