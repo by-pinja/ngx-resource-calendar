@@ -18,8 +18,8 @@
 <ng-template #slotTemplate let-slot="slot">
   <div class="slot">
     <a href="/"
-      >{{ slot.data.startTime | date: 'shortTime' }} -
-      {{ slot.data.endTime | date: 'shortTime' }}</a
+      >{{ slot.startTime | date: 'shortTime' }} -
+      {{ slot.endTime | date: 'shortTime' }}</a
     >
   </div>
 </ng-template>
