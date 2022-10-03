@@ -2,7 +2,7 @@ library 'jenkins-ptcs-library@master'
 
 podTemplate(label: pod.label,
   containers: pod.templates + [
-    containerTemplate(name: 'node', image: 'node:12', ttyEnabled: true, command: '/bin/sh -c', args: 'cat'),
+    containerTemplate(name: 'node', image: 'node:16', ttyEnabled: true, command: '/bin/sh -c', args: 'cat'),
   ]
 ) {
     node(pod.label) {

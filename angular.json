@@ -7,13 +7,18 @@
       "projectType": "library",
       "root": "projects/ngx-resource-calendar",
       "sourceRoot": "projects/ngx-resource-calendar/src",
-      "prefix": "ptc",
+      "prefix": "pinja",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-ng-packagr:build",
+          "builder": "@angular-devkit/build-angular:ng-packagr",
           "options": {
             "tsConfig": "projects/ngx-resource-calendar/tsconfig.lib.json",
             "project": "projects/ngx-resource-calendar/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/ngx-resource-calendar/tsconfig.lib.prod.json"
+            }
           }
         },
         "test": {
@@ -22,16 +27,6 @@
             "main": "projects/ngx-resource-calendar/src/test.ts",
             "tsConfig": "projects/ngx-resource-calendar/tsconfig.spec.json",
             "karmaConfig": "projects/ngx-resource-calendar/karma.conf.js"
-          }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": [
-              "projects/ngx-resource-calendar/tsconfig.lib.json",
-              "projects/ngx-resource-calendar/tsconfig.spec.json"
-            ],
-            "exclude": ["**/node_modules/**"]
           }
         }
       }
@@ -51,13 +46,18 @@
             "main": "projects/demo/src/main.ts",
             "polyfills": "projects/demo/src/polyfills.ts",
             "tsConfig": "projects/demo/tsconfig.app.json",
-            "aot": false,
             "assets": [
               "projects/demo/src/favicon.ico",
               "projects/demo/src/assets"
             ],
             "styles": ["projects/demo/src/styles.css"],
-            "scripts": []
+            "scripts": [],
+            "vendorChunk": true,
+            "extractLicenses": false,
+            "buildOptimizer": false,
+            "sourceMap": true,
+            "optimization": false,
+            "namedChunks": true
           },
           "configurations": {
             "production": {
@@ -70,9 +70,7 @@
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
-              "extractCss": true,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -89,7 +87,8 @@
                 }
               ]
             }
-          }
+          },
+          "defaultConfiguration": ""
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
@@ -123,17 +122,6 @@
             "scripts": []
           }
         },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": [
-              "projects/demo/tsconfig.app.json",
-              "projects/demo/tsconfig.spec.json",
-              "projects/demo/e2e/tsconfig.json"
-            ],
-            "exclude": ["**/node_modules/**"]
-          }
-        },
         "e2e": {
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
@@ -148,6 +136,5 @@
         }
       }
     }
-  },
-  "defaultProject": "ngx-resource-calendar"
+  }
 }
