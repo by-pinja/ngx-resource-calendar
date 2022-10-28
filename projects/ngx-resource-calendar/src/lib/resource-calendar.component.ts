@@ -291,9 +291,7 @@ export class ResourceCalendarComponent implements OnChanges {
             hourSlot < 60;
             hourSlot += this.slotDurationInMinutes
           ) {
-            slots.push(
-              this.addMinutesToDate(dates[0].day, hour * 60 + hourSlot)
-            );
+            slots.push(this.createDate(dates[0].day, hour, hourSlot));
           }
           this.hours.push({ slots });
         }
@@ -310,7 +308,7 @@ export class ResourceCalendarComponent implements OnChanges {
       this.datesWithEvents = [];
       this.dates.forEach((d) => {
         const resources = [];
-        const startTime = this.addMinutesToDate(d.day, 60 * this.startHour);
+        const startTime = this.createDate(d.day, this.startHour, 0);
 
         d.resources.forEach((r) => {
           resources.push({
@@ -418,13 +416,17 @@ export class ResourceCalendarComponent implements OnChanges {
   }
 
   /**
-   * Add's minutes to given date time.
+   * Creates a new date from given date, hour and minutes.
    *
    * @param date Date time
-   * @param minutes How many minutes are added
-   * @returns Date time with added minutes
+   * @param hours Time in hours
+   * @param minutes Time in minutes
+   * @returns Date time set time
    */
-  private addMinutesToDate(date: Date, minutes: number): Date {
-    return new Date(date.getTime() + minutes * 60000);
+  private createDate(date: Date, hours: number, minutes: number): Date {
+    const newDate = new Date(date);
+    newDate.setHours(hours);
+    newDate.setMinutes(minutes);
+    return newDate;
   }
 }

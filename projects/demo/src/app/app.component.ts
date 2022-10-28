@@ -160,6 +160,103 @@ export class AppComponent implements OnInit {
     });
   }
 
+  public setSummerWinterTimeChangeDays() {
+    this.dates = [
+      {
+        day: new Date('2022-10-29 00:00:00'),
+        resources: [
+          {
+            resourceNumber: 1,
+            slots: [
+              {
+                startTime: new Date('2022-10-29 12:00:00'),
+                endTime: new Date('2022-10-29 12:15:00'),
+              },
+              {
+                startTime: new Date('2022-10-29 12:15:00'),
+                endTime: new Date('2022-10-29 12:30:00'),
+              },
+              {
+                startTime: new Date('2022-10-29 12:30:00'),
+                endTime: new Date('2022-10-29 12:45:00'),
+              },
+              {
+                startTime: new Date('2022-10-29 12:45:00'),
+                endTime: new Date('2022-10-29 13:00:00'),
+              },
+              {
+                startTime: new Date('2022-10-29 13:00:00'),
+                endTime: new Date('2022-10-29 13:15:00'),
+              },
+              {
+                startTime: new Date('2022-10-29 13:15:00'),
+                endTime: new Date('2022-10-29 13:30:00'),
+              },
+              {
+                startTime: new Date('2022-10-29 13:30:00'),
+                endTime: new Date('2022-10-29 13:45:00'),
+              },
+              {
+                startTime: new Date('2022-10-29 13:45:00'),
+                endTime: new Date('2022-10-29 14:00:00'),
+              },
+              {
+                startTime: new Date('2022-10-29 14:20:00'),
+                endTime: new Date('2022-10-29 14:40:00'),
+              },
+              {
+                startTime: new Date('2022-10-29 14:40:00'),
+                endTime: new Date('2022-10-29 15:00:00'),
+              },
+            ],
+          },
+        ],
+      },
+      {
+        day: new Date('2022-10-30 00:00:00'),
+        resources: [
+          {
+            resourceNumber: 1,
+            slots: [
+              {
+                startTime: new Date('2022-10-30 12:00:00'),
+                endTime: new Date('2022-10-30 12:15:00'),
+              },
+              {
+                startTime: new Date('2022-10-30 12:15:00'),
+                endTime: new Date('2022-10-30 12:30:00'),
+              },
+              {
+                startTime: new Date('2022-10-30 12:30:00'),
+                endTime: new Date('2022-10-30 12:45:00'),
+              },
+              {
+                startTime: new Date('2022-10-30 12:45:00'),
+                endTime: new Date('2022-10-30 13:00:00'),
+              },
+              {
+                startTime: new Date('2022-10-30 13:00:00'),
+                endTime: new Date('2022-10-30 13:15:00'),
+              },
+              {
+                startTime: new Date('2022-10-30 13:15:00'),
+                endTime: new Date('2022-10-30 13:30:00'),
+              },
+              {
+                startTime: new Date('2022-10-30 13:30:00'),
+                endTime: new Date('2022-10-30 13:45:00'),
+              },
+              {
+                startTime: new Date('2022-10-30 13:45:00'),
+                endTime: new Date('2022-10-30 14:00:00'),
+              },
+            ],
+          },
+        ],
+      },
+    ];
+  }
+
   public addEvents() {
     this.events = [
       {
