@@ -1,5 +1,11 @@
 # Changelog
 
+### [1.1.0](https://github.com/by-pinja/ngx-resource-calendar/compare/1.0.0...1.1.0) (2023-xx-xx)
+
+### CHANGES
+
+- Angular 16 or higher is now required to use this package
+
 ### [1.0.0](https://github.com/by-pinja/ngx-resource-calendar/compare/0.0.4...1.0.0) (2022-10-03)
 
 ### ⚠ BREAKING CHANGES
