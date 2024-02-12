@@ -77,7 +77,13 @@ export class AppComponent implements OnInit {
     this.dates = [...this.generateDays(targetDate, dayCount)];
   }
 
-  public generateDays(targetDate: Date, dayCount: number) {
+  /**
+   * Generates days with slots, starting from targetDate.
+   * @param targetDate
+   * @param dayCount
+   * @private
+   */
+  private generateDays(targetDate: Date, dayCount: number) {
     const dates = [];
 
     for (let i = 0; i < dayCount; i++) {
@@ -98,6 +104,11 @@ export class AppComponent implements OnInit {
     return dates;
   }
 
+  /**
+   * Generates slots for the date.
+   * @param date
+   * @private
+   */
   private generateSlots(date: Date): any[] {
     const slots = [];
     let currentDate = new Date(date.getTime());
@@ -116,6 +127,11 @@ export class AppComponent implements OnInit {
     return slots;
 }
 
+  /**
+   * Converts date to timezone time.
+   * @param date
+   * @param timeZone
+   */
   public convertTimeToTimezone(date: Date, timeZone: string): string {
     const options: Intl.DateTimeFormatOptions = {
       timeZone,
@@ -127,6 +143,11 @@ export class AppComponent implements OnInit {
     return formatter.format(date);
   }
 
+  /**
+   * Converts date to timezone date.
+   * @param date
+   * @param timeZone
+   */
   public convertDayToTimezone(date: Date, timeZone: string): string {
     const options: Intl.DateTimeFormatOptions = {
       timeZone,
