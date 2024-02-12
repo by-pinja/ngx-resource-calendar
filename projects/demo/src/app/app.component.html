@@ -1,16 +1,11 @@
 <h1>Resource calendar</h1>
-<button (click)="setDay()">1 day</button>
-<button (click)="setDays()">2 days</button>
-<button (click)="setSummerWinterTimeChangeDays()">
-  2 days between summer and winter time
-</button>
-<button (click)="addEvents()">Add events</button>
+<button *ngFor="let scenario of scenarios" (click)="scenario.method()">{{scenario.name}}</button>
 <div>
   <pinja-resource-calendar
     [dates]="dates"
     [events]="events"
-    [startHour]="12"
-    [endHour]="14"
+    [startHour]="startHour"
+    [endHour]="endHour"
     [slotDurationInMinutes]="15"
     [slotTemplate]="slotTemplate"
     [eventTemplate]="eventTemplate"

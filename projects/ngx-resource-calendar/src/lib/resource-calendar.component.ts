@@ -389,10 +389,12 @@ export class ResourceCalendarComponent implements OnChanges {
    * Calculates events top position. Floors to closest minute.
    *
    * @param event Event
+   * @param day
    */
   private calculatePosition(event: EventModel | SlotModel, day: Date): number {
-    const diffInMinutes =
-      (event.startTime.getTime() - day.getTime()) / 1000 / 60;
+    const dayMinutes = day.getMinutes() + (day.getHours() * 60);
+    const startMinutes = event.startTime.getMinutes() + (event.startTime.getHours() * 60);
+    const diffInMinutes = startMinutes - dayMinutes;
 
     return Math.floor(
       (diffInMinutes / this.slotDurationInMinutes) * this.height
@@ -405,11 +407,12 @@ export class ResourceCalendarComponent implements OnChanges {
    * @param event Event
    */
   private calculateHeight(event: EventModel | SlotModel): number {
-    const diffInMinutes =
-      (event.endTime.getTime() - event.startTime.getTime()) / 1000 / 60;
+    const endMinutes = event.endTime.getMinutes() + (event.endTime.getHours() * 60);
+    const startMinutes = event.startTime.getMinutes() + (event.startTime.getHours() * 60);
+    const diffInMinutes = endMinutes - startMinutes;
 
     if (diffInMinutes <= 0) {
-      return 1 * this.height;
+      return this.height;
     }
 
     return (diffInMinutes / this.slotDurationInMinutes) * this.height;
