@@ -112,14 +112,14 @@ export class ResourceCalendarComponent implements OnChanges {
     // Rebuild slots for hours when the date list changes.
     if (changes.dates && changes.dates.currentValue) {
       const dates: DayModel[] = changes.dates.currentValue;
+      this.hours = [];
+
       if (
-        dates.length === 0 ||
-        this.startHour === null ||
-        this.endHour === null
+        dates.length > 0 &&
+        typeof this.startHour === 'number' &&
+        typeof this.endHour === 'number'
       ) {
-        this.hours = [];
-      } else {
-        this.hours = [];
+        // For each hour, we calculate possible slots based on the user specified duration.
         for (let hour = this.startHour; hour <= this.endHour; hour++) {
           const slots: Date[] = [];
 
