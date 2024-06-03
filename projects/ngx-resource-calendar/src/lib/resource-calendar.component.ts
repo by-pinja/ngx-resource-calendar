@@ -150,19 +150,19 @@ export class ResourceCalendarComponent implements OnChanges {
       return;
     }
 
-    this.datesWithEvents = this.dates.map((d: DayModel): DateWithEventsModel => {
-      const startTime: Date = this.createDate(d.day, this.startHour, 0);
-      const resources: InternalResourceModel[] = d.resources.map((
-        r: ResourceModel
+    this.datesWithEvents = this.dates.map((dayModel: DayModel): DateWithEventsModel => {
+      const startTime: Date = this.createDate(dayModel.day, this.startHour, 0);
+      const resources: InternalResourceModel[] = dayModel.resources.map((
+        resourceModel: ResourceModel
       ): InternalResourceModel => ({
-        resourceNumber: r.resourceNumber,
-        data: r,
-        slots: this.getSlots(r.slots, startTime),
-        events: this.getEvents(r.resourceNumber, startTime),
+        resourceNumber: resourceModel.resourceNumber,
+        data: resourceModel,
+        slots: this.getSlots(resourceModel.slots, startTime),
+        events: this.getEvents(resourceModel.resourceNumber, startTime),
       }));
 
       return {
-        data: d,
+        data: dayModel,
         resources,
       };
     });
