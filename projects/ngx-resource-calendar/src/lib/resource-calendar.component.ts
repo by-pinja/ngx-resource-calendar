@@ -146,27 +146,29 @@ export class ResourceCalendarComponent implements OnChanges {
    * @private
    */
   private setResourceEvents(): void {
-    if (this.dates && this.dates.length > 0) {
-      this.datesWithEvents = [];
-      this.dates.forEach((d: DayModel): void => {
-        const resources: InternalResourceModel[] = [];
-        const startTime: Date = this.createDate(d.day, this.startHour, 0);
+    if (!Array.isArray(this.dates) || this.dates.length === 0) {
+      return;
+    }
 
-        d.resources.forEach((r: ResourceModel): void => {
-          resources.push({
-            resourceNumber: r.resourceNumber,
-            data: r,
-            slots: this.getSlots(r.slots, startTime),
-            events: this.getEvents(r.resourceNumber, startTime),
-          });
-        });
+    this.datesWithEvents = [];
+    this.dates.forEach((d: DayModel): void => {
+      const resources: InternalResourceModel[] = [];
+      const startTime: Date = this.createDate(d.day, this.startHour, 0);
 
-        this.datesWithEvents.push({
-          data: d,
-          resources,
+      d.resources.forEach((r: ResourceModel): void => {
+        resources.push({
+          resourceNumber: r.resourceNumber,
+          data: r,
+          slots: this.getSlots(r.slots, startTime),
+          events: this.getEvents(r.resourceNumber, startTime),
         });
       });
-    }
+
+      this.datesWithEvents.push({
+        data: d,
+        resources,
+      });
+    });
   }
 
   /**
