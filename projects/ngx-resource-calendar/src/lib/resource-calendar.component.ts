@@ -11,6 +11,8 @@ import { DayModel } from './models/day.model';
 import { HourModel } from './models/hour.model';
 import { SlotModel } from './models/slot.model';
 import { CalendarEventModel } from './models/calendar-event.model';
+import { ResourceModel } from './models/resource.model';
+import { DateWithEventsModel } from './models/date-with-resources.model';
 
 @Component({
   selector: 'pinja-resource-calendar',
@@ -92,9 +94,9 @@ export class ResourceCalendarComponent implements OnChanges {
   /**
    * Dates with events in resources
    */
-  public datesWithEvents: any[] = [];
+  public datesWithEvents: DateWithEventsModel[] = [];
 
-  public ngOnChanges(changes: SimpleChanges) {
+  public ngOnChanges(changes: SimpleChanges): void {
     if (changes.dates && changes.dates.currentValue) {
       const dates: DayModel[] = changes.dates.currentValue;
       if (
@@ -124,14 +126,14 @@ export class ResourceCalendarComponent implements OnChanges {
     }
   }
 
-  private setResourceEvents() {
+  private setResourceEvents(): void {
     if (this.dates && this.dates.length > 0) {
       this.datesWithEvents = [];
-      this.dates.forEach((d) => {
-        const resources = [];
-        const startTime = this.createDate(d.day, this.startHour, 0);
+      this.dates.forEach((d: DayModel): void => {
+        const resources: ResourceModel[] = [];
+        const startTime: Date = this.createDate(d.day, this.startHour, 0);
 
-        d.resources.forEach((r) => {
+        d.resources.forEach((r: ResourceModel): void => {
           resources.push({
             data: r,
             slots: this.getSlots(r.slots, startTime),
@@ -158,21 +160,21 @@ export class ResourceCalendarComponent implements OnChanges {
       return [];
     }
 
-    const endDate = new Date(day);
+    const endDate: Date = new Date(day);
     endDate.setDate(endDate.getDate() + 1);
 
-    const dayStart = day.getTime();
-    const dayEnd = endDate.getTime();
+    const dayStart: number = day.getTime();
+    const dayEnd: number = endDate.getTime();
 
-    const events = this.events.filter(
-      (m) =>
+    const events: EventModel[] = this.events.filter(
+      (m: EventModel) =>
         m.resourceNumber === resourceNumber &&
         m.startTime.getTime() >= dayStart &&
         m.endTime.getTime() < dayEnd
     );
 
     // Calculate position and height for events
-    return events.map((event) => {
+    return events.map((event: EventModel): CalendarEventModel<EventModel> => {
       return {
         data: event,
         position: this.calculatePosition(event, day),
@@ -195,7 +197,7 @@ export class ResourceCalendarComponent implements OnChanges {
     }
 
     // Calculate position and height for slots
-    return slots.map((slot) => {
+    return slots.map((slot: SlotModel): CalendarEventModel<SlotModel> => {
       return {
         data: slot,
         position: this.calculatePosition(slot, day),
@@ -208,11 +210,9 @@ export class ResourceCalendarComponent implements OnChanges {
 
   /**
    * Calculates events top position. Floors to closest minute.
-   *
-   * @param event Event
    */
   private calculatePosition(event: EventModel | SlotModel, day: Date): number {
-    const diffInMinutes =
+    const diffInMinutes: number =
       (event.startTime.getTime() - day.getTime()) / 1000 / 60;
 
     return Math.floor(
@@ -226,11 +226,11 @@ export class ResourceCalendarComponent implements OnChanges {
    * @param event Event
    */
   private calculateHeight(event: EventModel | SlotModel): number {
-    const diffInMinutes =
+    const diffInMinutes: number =
       (event.endTime.getTime() - event.startTime.getTime()) / 1000 / 60;
 
     if (diffInMinutes <= 0) {
-      return 1 * this.height;
+      return this.height;
     }
 
     return (diffInMinutes / this.slotDurationInMinutes) * this.height;
@@ -245,7 +245,7 @@ export class ResourceCalendarComponent implements OnChanges {
    * @returns Date time set time
    */
   private createDate(date: Date, hours: number, minutes: number): Date {
-    const newDate = new Date(date);
+    const newDate: Date = new Date(date);
     newDate.setHours(hours);
     newDate.setMinutes(minutes);
     return newDate;
