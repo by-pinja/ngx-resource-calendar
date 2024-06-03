@@ -13,6 +13,7 @@ import { SlotModel } from './models/slot.model';
 import { CalendarEventModel } from './models/calendar-event.model';
 import { ResourceModel } from './models/resource.model';
 import { DateWithEventsModel } from './models/date-with-resources.model';
+import { InternalResourceModel } from './models/internal-resource.model';
 
 @Component({
   selector: 'pinja-resource-calendar',
@@ -29,12 +30,12 @@ export class ResourceCalendarComponent implements OnChanges {
   /**
    * First hour to draw in the calendar.
    */
-  @Input() startHour: number = null;
+  @Input() startHour: number | null = null;
 
   /**
    * Last hour to draw in the calendar.
    */
-  @Input() endHour: number = null;
+  @Input() endHour: number | null = null;
 
   /**
    * An array of events to show on view.
@@ -42,7 +43,18 @@ export class ResourceCalendarComponent implements OnChanges {
   @Input() events: EventModel[] = [];
 
   /**
-   * How long is one slot duration in minutes.
+   * Duration (in minutes) of a calendar slot within an hour.
+   * This value must be between 1 and 60 (inclusive) to ensure valid
+   * slot breakdowns within an hour. A value of 30 defines slots
+   * of 30 minutes each, while a value of 60 defines a single slot
+   * spanning the entire hour. Choosing a value that is not a
+   * divisor of 60 will result in leftover minutes that cannot be used for
+   * complete slots.
+   * @example
+   *  60/30=2 ✔️
+   *  60/15=4 ✔️
+   *  60/45=1.3 ❌
+   *  60/25=2.4 ❌
    */
   @Input() slotDurationInMinutes = 15;
 
@@ -97,6 +109,7 @@ export class ResourceCalendarComponent implements OnChanges {
   public datesWithEvents: DateWithEventsModel[] = [];
 
   public ngOnChanges(changes: SimpleChanges): void {
+    // Rebuild slots for hours when the date list changes.
     if (changes.dates && changes.dates.currentValue) {
       const dates: DayModel[] = changes.dates.currentValue;
       if (
@@ -109,6 +122,7 @@ export class ResourceCalendarComponent implements OnChanges {
         this.hours = [];
         for (let hour = this.startHour; hour <= this.endHour; hour++) {
           const slots: Date[] = [];
+
           for (
             let hourSlot = 0;
             hourSlot < 60;
@@ -116,6 +130,7 @@ export class ResourceCalendarComponent implements OnChanges {
           ) {
             slots.push(this.createDate(dates[0].day, hour, hourSlot));
           }
+
           this.hours.push({ slots });
         }
       }
@@ -126,15 +141,20 @@ export class ResourceCalendarComponent implements OnChanges {
     }
   }
 
+  /**
+   * Creates dates with events by combining resources to dates.
+   * @private
+   */
   private setResourceEvents(): void {
     if (this.dates && this.dates.length > 0) {
       this.datesWithEvents = [];
       this.dates.forEach((d: DayModel): void => {
-        const resources: ResourceModel[] = [];
+        const resources: InternalResourceModel[] = [];
         const startTime: Date = this.createDate(d.day, this.startHour, 0);
 
         d.resources.forEach((r: ResourceModel): void => {
           resources.push({
+            resourceNumber: r.resourceNumber,
             data: r,
             slots: this.getSlots(r.slots, startTime),
             events: this.getEvents(r.resourceNumber, startTime),
@@ -174,42 +194,54 @@ export class ResourceCalendarComponent implements OnChanges {
     );
 
     // Calculate position and height for events
-    return events.map((event: EventModel): CalendarEventModel<EventModel> => {
-      return {
-        data: event,
-        position: this.calculatePosition(event, day),
-        height: this.calculateHeight(event),
-        left: event.left || '0',
-        width: event.width || '100%',
-      };
-    });
+    return events.map((event: EventModel): CalendarEventModel<EventModel> => ({
+      data: event,
+      position: this.calculatePosition(event, day),
+      height: this.calculateHeight(event),
+      left: event.left || '0',
+      width: event.width || '100%',
+    }));
   }
 
   /**
    * Gets slots for a day's resource
    */
   private getSlots(
-    slots: SlotModel[],
-    day: Date
+    slots: SlotModel[] | CalendarEventModel<SlotModel>[],
+    day: Date,
   ): CalendarEventModel<SlotModel>[] {
     if (!slots || slots.length === 0) {
       return [];
     }
 
     // Calculate position and height for slots
-    return slots.map((slot: SlotModel): CalendarEventModel<SlotModel> => {
+    return slots.map((
+      slot: SlotModel | CalendarEventModel<SlotModel>
+    ): CalendarEventModel<SlotModel> => {
+      const plainSlot: SlotModel = this.instanceOfCalendarEventModel(slot) ? slot.data : slot;
       return {
-        data: slot,
-        position: this.calculatePosition(slot, day),
-        height: this.calculateHeight(slot),
-        left: slot.left || '0',
-        width: slot.width || '100%',
+        data: plainSlot,
+        position: this.calculatePosition(plainSlot, day),
+        height: this.calculateHeight(plainSlot),
+        left: plainSlot.left || '0',
+        width: plainSlot.width || '100%',
       };
     });
   }
 
   /**
-   * Calculates events top position. Floors to closest minute.
+   * Checks if the given slot is CalendarEventModel.
+   * @private
+   */
+  private instanceOfCalendarEventModel(
+    slot: SlotModel | CalendarEventModel<SlotModel>
+  ): slot is CalendarEventModel<SlotModel> {
+    const fieldName: keyof CalendarEventModel<SlotModel> = 'data';
+    return fieldName in slot;
+  }
+
+  /**
+   * Calculates events top position. Floors to the closest minute.
    */
   private calculatePosition(event: EventModel | SlotModel, day: Date): number {
     const diffInMinutes: number =
@@ -222,8 +254,6 @@ export class ResourceCalendarComponent implements OnChanges {
 
   /**
    * Calculates events height. Floors to nearest minute.
-   *
-   * @param event Event
    */
   private calculateHeight(event: EventModel | SlotModel): number {
     const diffInMinutes: number =
@@ -240,8 +270,8 @@ export class ResourceCalendarComponent implements OnChanges {
    * Creates a new date from given date, hour and minutes.
    *
    * @param date Date time
-   * @param hours Time in hours
-   * @param minutes Time in minutes
+   * @param hours Time in hours (in local timezone)
+   * @param minutes Time in minutes (in local timezone)
    * @returns Date time set time
    */
   private createDate(date: Date, hours: number, minutes: number): Date {
