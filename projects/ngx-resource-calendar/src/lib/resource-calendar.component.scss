@@ -1,0 +1,57 @@
+.header {
+  flex-direction: row;
+  box-sizing: border-box;
+  display: flex;
+  place-content: stretch flex-start;
+  align-items: stretch;
+}
+
+.calendar {
+  flex-direction: row;
+  box-sizing: border-box;
+  display: flex;
+  place-content: stretch flex-start;
+  align-items: stretch;
+}
+
+.resources {
+  flex-direction: row;
+  box-sizing: border-box;
+  display: flex;
+  place-content: stretch flex-start;
+  align-items: stretch;
+}
+
+.resource {
+  flex: 1 1 100%;
+  position: relative;
+  box-sizing: border-box;
+}
+
+.hour-sub-slot {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.hour-row {
+  width: 10%;
+  min-width: 50px;
+}
+
+.day-row {
+  position: relative;
+  width: 90%;
+}
+
+.slot {
+  position: absolute;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.event {
+  position: absolute;
+  z-index: 2;
+  overflow: hidden;
+}
