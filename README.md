@@ -2,7 +2,7 @@
 
 ## What is this?
 
-Resource calendar for Angular 17+
+Resource calendar for Angular 18+
 
 ## Install
 
@@ -65,6 +65,16 @@ Simple usage example
 | `eventTemplate`         | A custom template to use for events                                           | event = EventModel, resource = ResourceModel, day = DayModel |
 | `slotTemplate`          | A custom template to use for slots                                            | slot = SlotModel, resource = ResourceModel, day = DayModel   |
 | `currentTimeTemplate`   | A custom template to show current time etc. custom overlay                    | day = DateModel                                              |
+
+## Testing locally updated package
+
+```bash
+$ npm run build
+$ cd dist/ngx-resource-calendar
+$ npm pack
+```
+
+Copy `protacon-ngx-resource-calendar-0.0.1.tgz` from dist/ngx-resource-calendar to other project root and change to `package.json` `"@protacon/ngx-resource-calendar": "file:protacon-ngx-resource-calendar-0.0.1.tgz",`
 
 ## License
 
