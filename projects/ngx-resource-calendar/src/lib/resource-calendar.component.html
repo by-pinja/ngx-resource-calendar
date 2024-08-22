@@ -1,0 +1,118 @@
+<div class="header">
+  <div class="hour-row info-block">
+    <ng-template
+      [ngTemplateOutlet]="infoTemplate || defaultInfoTemplate"
+    ></ng-template>
+  </div>
+  <div class="day-row" *ngFor="let date of datesWithEvents">
+    <ng-template
+      [ngTemplateOutlet]="dayTemplate || defaultDayTemplate"
+      [ngTemplateOutletContext]="{ day: date.data }"
+    ></ng-template>
+    <div class="resources">
+      <div
+        class="resource"
+        [style.max-width.%]="100 / date.resources.length"
+        *ngFor="let resource of date.resources"
+      >
+        <ng-template
+          [ngTemplateOutlet]="resourceTemplate || defaultResourceTemplate"
+          [ngTemplateOutletContext]="{ resource: resource.data }"
+        ></ng-template>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="calendar">
+  <div class="hour-row">
+    <div *ngFor="let hour of hours">
+      <div class="hour-slot">
+        <div
+          class="hour-sub-slot"
+          [style.height.px]="height"
+          *ngFor="let time of hour.slots"
+        >
+          <ng-template
+            [ngTemplateOutlet]="hourTemplate || defaultHourTemplate"
+            [ngTemplateOutletContext]="{ time }"
+          ></ng-template>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div *ngFor="let date of datesWithEvents" class="day-row resources">
+    <ng-template
+      [ngTemplateOutlet]="currentTimeTemplate || defaultCurrentTimeTemplate"
+      [ngTemplateOutletContext]="{ day: date.data }"
+    ></ng-template>
+    <div
+      class="resource"
+      [style.max-width.%]="100 / date.resources.length"
+      *ngFor="let resource of date.resources"
+    >
+      <div *ngFor="let hour of hours">
+        <div class="hour-slot">
+          <div
+            class="hour-sub-slot"
+            [style.height.px]="height"
+            *ngFor="let time of hour.slots"
+          ></div>
+        </div>
+      </div>
+
+      <div
+        *ngFor="let event of resource.events"
+        [style.top.px]="event.position"
+        [style.height.px]="event.height"
+        [style.left]="event.left"
+        [style.width]="event.width"
+        class="event"
+      >
+        <ng-template
+          [ngTemplateOutlet]="eventTemplate || defaultEventTemplate"
+          [ngTemplateOutletContext]="{
+                event: event.data,
+                resource: resource.data,
+                day: date.data
+              }"
+        ></ng-template>
+      </div>
+
+      <div
+        *ngFor="let slot of resource.slots"
+        class="slot"
+        [style.top.px]="slot.position"
+        [style.height.px]="slot.height"
+        [style.left]="slot.left"
+        [style.width]="slot.width"
+      >
+        <ng-template
+          [ngTemplateOutlet]="slotTemplate || defaultSlotTemplate"
+          [ngTemplateOutletContext]="{
+                slot: slot.data,
+                resource: resource.data,
+                day: date.data
+              }"
+        ></ng-template>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #defaultInfoTemplate></ng-template>
+<ng-template #defaultDayTemplate let-day="day">{{
+    day.day | date: 'shortDate'
+  }}</ng-template>
+<ng-template #defaultResourceTemplate let-resource="resource">{{
+    resource.resourceNumber
+  }}</ng-template>
+<ng-template #defaultHourTemplate let-time="time">{{
+    time | date: 'shortTime'
+  }}</ng-template>
+<ng-template #defaultCurrentTimeTemplate let-day="day"></ng-template>
+<ng-template #defaultEventTemplate let-event="event">{{
+    event.resourceNumber
+  }}</ng-template>
+<ng-template #defaultSlotTemplate let-slot="slot">{{
+    slot.startTime | date: 'shortTime'
+  }}</ng-template>
