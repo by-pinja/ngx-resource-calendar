@@ -20,6 +20,7 @@ import { InternalResourceModel } from './models/internal-resource.model';
   templateUrl: 'resource-calendar.component.html',
   styleUrl: 'resource-calendar.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class ResourceCalendarComponent implements OnChanges {
   /**
@@ -150,22 +151,28 @@ export class ResourceCalendarComponent implements OnChanges {
       return;
     }
 
-    this.datesWithEvents = this.dates.map((dayModel: DayModel): DateWithEventsModel => {
-      const startTime: Date = this.createDate(dayModel.day, this.startHour, 0);
-      const resources: InternalResourceModel[] = dayModel.resources.map((
-        resourceModel: ResourceModel
-      ): InternalResourceModel => ({
-        resourceNumber: resourceModel.resourceNumber,
-        data: resourceModel,
-        slots: this.getSlots(resourceModel.slots, startTime),
-        events: this.getEvents(resourceModel.resourceNumber, startTime),
-      }));
+    this.datesWithEvents = this.dates.map(
+      (dayModel: DayModel): DateWithEventsModel => {
+        const startTime: Date = this.createDate(
+          dayModel.day,
+          this.startHour,
+          0
+        );
+        const resources: InternalResourceModel[] = dayModel.resources.map(
+          (resourceModel: ResourceModel): InternalResourceModel => ({
+            resourceNumber: resourceModel.resourceNumber,
+            data: resourceModel,
+            slots: this.getSlots(resourceModel.slots, startTime),
+            events: this.getEvents(resourceModel.resourceNumber, startTime),
+          })
+        );
 
-      return {
-        data: dayModel,
-        resources,
-      };
-    });
+        return {
+          data: dayModel,
+          resources,
+        };
+      }
+    );
   }
 
   /**
@@ -193,13 +200,15 @@ export class ResourceCalendarComponent implements OnChanges {
     );
 
     // Calculate position and height for events
-    return events.map((event: EventModel): CalendarEventModel<EventModel> => ({
-      data: event,
-      position: this.calculatePosition(event, day),
-      height: this.calculateHeight(event),
-      left: event.left || '0',
-      width: event.width || '100%',
-    }));
+    return events.map(
+      (event: EventModel): CalendarEventModel<EventModel> => ({
+        data: event,
+        position: this.calculatePosition(event, day),
+        height: this.calculateHeight(event),
+        left: event.left || '0',
+        width: event.width || '100%',
+      })
+    );
   }
 
   /**
@@ -207,25 +216,29 @@ export class ResourceCalendarComponent implements OnChanges {
    */
   private getSlots(
     slots: SlotModel[] | CalendarEventModel<SlotModel>[],
-    day: Date,
+    day: Date
   ): CalendarEventModel<SlotModel>[] {
     if (!slots || slots.length === 0) {
       return [];
     }
 
     // Calculate position and height for slots
-    return slots.map((
-      slot: SlotModel | CalendarEventModel<SlotModel>
-    ): CalendarEventModel<SlotModel> => {
-      const plainSlot: SlotModel = this.instanceOfCalendarEventModel(slot) ? slot.data : slot;
-      return {
-        data: plainSlot,
-        position: this.calculatePosition(plainSlot, day),
-        height: this.calculateHeight(plainSlot),
-        left: plainSlot.left || '0',
-        width: plainSlot.width || '100%',
-      };
-    });
+    return slots.map(
+      (
+        slot: SlotModel | CalendarEventModel<SlotModel>
+      ): CalendarEventModel<SlotModel> => {
+        const plainSlot: SlotModel = this.instanceOfCalendarEventModel(slot)
+          ? slot.data
+          : slot;
+        return {
+          data: plainSlot,
+          position: this.calculatePosition(plainSlot, day),
+          height: this.calculateHeight(plainSlot),
+          left: plainSlot.left || '0',
+          width: plainSlot.width || '100%',
+        };
+      }
+    );
   }
 
   /**
