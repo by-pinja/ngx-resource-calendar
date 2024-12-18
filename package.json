@@ -17,7 +17,7 @@
     "url": "https://github.com/by-pinja/ngx-resource-calendar/issues"
   },
   "dependencies": {
-    "@angular/cdk": "^19.0.1",
+    "@angular/cdk": "^19.0.3",
     "@angular/common": "^19.0.4",
     "@angular/compiler": "^19.0.4",
     "@angular/core": "^19.0.4",
