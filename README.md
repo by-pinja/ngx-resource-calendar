@@ -2,7 +2,7 @@
 
 ## What is this?
 
-Resource calendar for Angular 18+
+Resource calendar for Angular 19+
 
 ## Install
 
