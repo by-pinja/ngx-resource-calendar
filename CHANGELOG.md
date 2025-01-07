@@ -1,6 +1,6 @@
 # Changelog
 
-### [4.0.0](https://github.com/by-pinja/ngx-resource-calendar/compare/3.0.0...4.0.0) (2024-12-20)
+### [4.0.0](https://github.com/by-pinja/ngx-resource-calendar/compare/3.0.0...4.0.0) (2025-01-07)
 
 ### CHANGES
 
